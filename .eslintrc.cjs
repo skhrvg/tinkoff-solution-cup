@@ -5,4 +5,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
   },
+  rules: {
+    'vue/html-comment-content-spacing': 'off'
+  }
 }

@@ -4,19 +4,19 @@ import MainLayout from '@/layouts/MainLayout.vue'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'home',
-    component: () => import('../views/HomeView.vue'),
+    name: 'dashboard',
+    component: () => import('../views/DashboardView.vue'),
     meta: {
-      title: 'Home',
+      title: 'Мои расходы',
       layout: MainLayout,
     },
   },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import('../views/AboutView.vue'),
+    path: '/new',
+    name: 'new-expense',
+    component: () => import('../views/NewExpenseView.vue'),
     meta: {
-      title: 'About',
+      title: 'Добавить расход',
       layout: MainLayout,
     },
   },
