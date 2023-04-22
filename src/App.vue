@@ -24,7 +24,7 @@ const layout = computed(() => {
             <component :is="Component" />
           </template>
           <template #fallback>
-            <div class="w-screen h-screen flex flex-col items-center justify-center gap-4">
+            <div class="w-screen h-screen flex flex-col items-center justify-center">
               <h1 class="font-bold text-2xl">
                 Loading...
               </h1>

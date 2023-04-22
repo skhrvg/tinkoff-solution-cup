@@ -1,38 +1,17 @@
 import { defineStore } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
 import type { Ref } from 'vue'
-import type { Expense, NewExpense } from '@/types/expenses'
-import categories from '@/utils/expenceCategories'
+import type { Expense, ExpenseCategory, NewExpense } from '@/types/expenses'
+import expenseCategories from '@/utils/expenseCategories'
+import demoData from '@/assets/demo.json'
 
 export const useExpensesStore = defineStore('expenses', () => {
-  const expenses: Ref<Expense[]> = useLocalStorage<Expense[]>('expenses', [
-    {
-      id: 1,
-      categoryId: 1,
-      amount: 1000,
-      date: '2021-01-01',
-      description: 'Покупка продуктов в магазине',
-    },
-    {
-      id: 2,
-      categoryId: 1,
-      amount: 2000,
-      date: '2021-01-02',
-      description: 'Покупка продуктов в магазине',
-    },
-    {
-      id: 3,
-      categoryId: 2,
-      amount: 500,
-      date: '2021-01-03',
-      description: 'Поездка на такси',
-    },
-  ] as Expense[])
+  const expenses: Ref<Expense[]> = useLocalStorage<Expense[]>('expenses', demoData as Expense[])
 
   const getExpenses = () => {
     return expenses.value.map(expense => ({
       ...expense,
-      category: categories.find(category => category.id === expense.categoryId),
+      category: expenseCategories.find(category => category.id === expense.categoryId),
     })).sort((a, b) => {
       if (a.date > b.date)
         return -1
@@ -58,5 +37,57 @@ export const useExpensesStore = defineStore('expenses', () => {
     expenses.value.splice(index, 1)
   }
 
-  return { expenses, createExpense, getExpenses, deleteExpense }
+  const getMostExpensiveCategoryThisMonth = (): { amount: number; category: ExpenseCategory | null } => {
+    const expenses = getExpenses()
+    const thisMonth = new Date().getMonth()
+    const thisYear = new Date().getFullYear()
+    const expensesThisMonth = expenses.filter((expense) => {
+      const expenseDate = new Date(expense.date)
+      return expenseDate.getMonth() === thisMonth && expenseDate.getFullYear() === thisYear
+    })
+    const categories: { category: ExpenseCategory; amount: number }[] = []
+    for (const expense of expensesThisMonth) {
+      const category = categories.find(category => category.category.id === expense.categoryId)
+      if (!expense.category)
+        continue
+      if (category) {
+        category.amount += expense.amount
+      }
+      else {
+        categories.push({
+          category: expense.category,
+          amount: expense.amount,
+        })
+      }
+    }
+    if (categories.length === 0)
+      return { amount: 0, category: null }
+    const mostExpensiveCategory = categories.reduce((prev, current) => (prev.amount > current.amount) ? prev : current)
+    return { amount: mostExpensiveCategory.amount, category: mostExpensiveCategory.category }
+  }
+
+  const getExpensesByCategory = (categoryId: number) => {
+    return getExpenses().filter(expense => expense.categoryId === categoryId)
+  }
+
+  const getAmountByCategory = (categoryId: number) => {
+    return getExpensesByCategory(categoryId).reduce((prev, current) => prev + current.amount, 0)
+  }
+
+  const getThisWeekExpenses = () => {
+    const expenses = getExpenses()
+    const today = new Date()
+    const thisWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay())
+    return expenses.filter(expense => new Date(expense.date) >= thisWeek)
+  }
+
+  return {
+    createExpense,
+    getExpenses,
+    deleteExpense,
+    getMostExpensiveCategoryThisMonth,
+    getExpensesByCategory,
+    getThisWeekExpenses,
+    getAmountByCategory,
+  }
 })

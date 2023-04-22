@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ChevronDownIcon, ChevronLeftIcon } from '@heroicons/vue/20/solid'
+import { ChevronDownIcon, ChevronLeftIcon, PlusIcon } from '@heroicons/vue/20/solid'
 import { computed, ref } from 'vue'
 import { useExpensesStore } from '@/stores/expenses'
 import type { ExpenseCategory } from '@/types/expenses'
-import expenseCategories from '@/utils/expenceCategories'
+import expenseCategories from '@/utils/expenseCategories'
 import router from '@/router'
 
 const selectedCategory = ref<ExpenseCategory>(expenseCategories[0])
@@ -11,7 +11,11 @@ const description = ref('')
 const amount = ref(0)
 const date = ref(new Date().toISOString().split('T')[0])
 
-const { createExpense } = useExpensesStore()
+const { createExpense, getAmountByCategory } = useExpensesStore()
+
+const selectedCategoryAmount = computed(() => {
+  return getAmountByCategory(selectedCategory.value.id)
+})
 
 async function createNewExpense() {
   createExpense({
@@ -69,7 +73,7 @@ const categorySelectorRef = ref<HTMLSelectElement>()
             {{ selectedCategory.name }}
           </p>
           <p class="opacity-90 truncate">
-            limit
+            {{ selectedCategoryAmount }} руб. в этом месяце
           </p>
         </div>
         <ChevronDownIcon class="w-8 h-8 text-white" />
@@ -125,10 +129,11 @@ const categorySelectorRef = ref<HTMLSelectElement>()
     <section class="flex flex-row gap-4">
       <button
         :disabled="createButtonDisabled"
-        class="bg-black rounded-full p-4 text-white w-full"
+        class="bg-black rounded-full p-4 text-white w-full flex items-center justify-center font-medium"
         @click="createNewExpense()"
       >
-        Добавить
+        <PlusIcon class="w-6 h-6 mr-2" />
+        <span class="mr-2">Добавить расход</span>
       </button>
     </section>
   </div>

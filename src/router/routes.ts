@@ -20,6 +20,15 @@ const routes: RouteRecordRaw[] = [
       layout: MainLayout,
     },
   },
+  {
+    path: '/history',
+    name: 'history',
+    component: () => import('../views/HistoryView.vue'),
+    meta: {
+      title: 'История',
+      layout: MainLayout,
+    },
+  },
 ]
 
 export default routes

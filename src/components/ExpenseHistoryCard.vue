@@ -9,7 +9,7 @@ const props = defineProps<{
 const date = computed(() => {
   const date = new Date(props.expense.date)
   // DD MM YYYY
-  return date.toLocaleDateString()
+  return date.toLocaleDateString('ru-RU', { month: 'long', day: 'numeric' })
 })
 </script>
 
