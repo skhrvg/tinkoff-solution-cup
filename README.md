@@ -6,6 +6,10 @@
 - [pnpm](https://pnpm.io/) v8.3.1
 - [WebStorm (рекомендуется)](https://www.jetbrains.com/webstorm/) v2023.1
 
+## Live Demo
+
+[tsc.skhr.vg](https://tsc.skhr.vg)
+
 ## Запуск и сборка проекта
 
 Установка зависимостей:
