@@ -2,8 +2,8 @@ import { defineStore } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
 import type { Ref } from 'vue'
 import type { Expense, ExpenseCategory, NewExpense } from '@/types/expenses'
-import expenseCategories from '@/utils/expenseCategories'
-import demoData from '@/assets/demo.json'
+import expenseCategories from '@/demoData/expenseCategories'
+import demoData from '@/demoData/expenses.json'
 
 export const useExpensesStore = defineStore('expenses', () => {
   const expenses: Ref<Expense[]> = useLocalStorage<Expense[]>('expenses', demoData as Expense[])

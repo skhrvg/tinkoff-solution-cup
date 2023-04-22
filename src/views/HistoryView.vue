@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { ChevronDownIcon, ChevronLeftIcon, RectangleGroupIcon } from '@heroicons/vue/20/solid'
 import { useExpensesStore } from '@/stores/expenses'
 import ExpenseHistoryCard from '@/components/ExpenseHistoryCard.vue'
-import expenseCategories from '@/utils/expenseCategories'
+import expenseCategories from '@/demoData/expenseCategories'
 import type { ExpenseCategory } from '@/types/expenses'
 
 const { getExpenses } = useExpensesStore()

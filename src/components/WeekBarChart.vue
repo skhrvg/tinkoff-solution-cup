@@ -14,7 +14,7 @@ expenses.forEach((expense) => {
 const maxAmount = Math.max(...amountsByWeekDay)
 const amountsByWeekDayPercent = amountsByWeekDay.map(amount => amount / maxAmount * 100)
 
-const weekDayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
+const weekDayNames = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
 </script>
 
 <template>

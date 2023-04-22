@@ -3,7 +3,7 @@ import { ChevronDownIcon, ChevronLeftIcon, PlusIcon } from '@heroicons/vue/20/so
 import { computed, ref } from 'vue'
 import { useExpensesStore } from '@/stores/expenses'
 import type { ExpenseCategory } from '@/types/expenses'
-import expenseCategories from '@/utils/expenseCategories'
+import expenseCategories from '@/demoData/expenseCategories'
 import router from '@/router'
 
 const selectedCategory = ref<ExpenseCategory>(expenseCategories[0])
